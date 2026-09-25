@@ -44,7 +44,7 @@
       try { if (localStorage.getItem('menu-lang') === 'en') { d.lang = 'en'; d.dir = 'ltr'; } } catch (e) {}
     })(document.documentElement);
   </script>
-  <link rel="stylesheet" href="css/style.css?v=27">
+  <link rel="stylesheet" href="css/style.css?v=28">
 </head>
 <body>
   <div class="intro" aria-hidden="true">
@@ -82,11 +82,15 @@
         </video>
       </div>
       <div class="hero__content">
-        <p class="hero__eyebrow" data-site="name">اسم المطعم</p>
-        <h1 data-site="slogan">طوارئ الجوع</h1>
-        <p class="hero__tagline" data-site="tagline">شاورما عالفحم، دجاج تكا عالفحم، بروستد وسناكات</p>
-        <a href="#menu" class="btn hero__cta" data-i18n="seeMenu">شاهد المنيو</a>
-        <p class="hero__note" data-i18n="heroNote">اختار طلبك من المنيو وابعته مباشرة من طاولتك</p>
+        <div class="hero__text">
+          <p class="hero__eyebrow" data-site="name">اسم المطعم</p>
+          <h1 data-site="slogan">طوارئ الجوع</h1>
+          <p class="hero__tagline" data-site="tagline">شاورما عالفحم، دجاج تكا عالفحم، بروستد وسناكات</p>
+        </div>
+        <div class="hero__actions">
+          <a href="#menu" class="btn hero__cta" data-i18n="seeMenu">شاهد المنيو</a>
+          <p class="hero__note" data-i18n="heroNote">اختار طلبك من المنيو وابعته مباشرة من طاولتك</p>
+        </div>
       </div>
     </section>
 
