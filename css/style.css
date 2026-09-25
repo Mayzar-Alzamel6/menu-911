@@ -1,7 +1,7 @@
 /* ==========================================================================
    Restaurant QR menu template — Stylesheet
-   Look: modern light bakery — flour background, one tomato accent,
-   bold Arabic display type, big food photos.
+   Look: 911 — light grey paper, orange accent, charcoal type,
+   bold Arabic display type, food video hero.
    Brand colors: :root tokens below (overridden by SITE.theme in js/site-config.js)
    Mobile-First | RTL | GSAP Scroll Scene
    ========================================================================== */
@@ -244,6 +244,16 @@ html.intro-on { overflow: hidden; }
   line-height: 1;
 }
 
+/* A logo that already spells the name (911): keep the text for screen readers only */
+.navbar__logo .brand-mark:has(img) + [data-site="shortName"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .navbar__links {
   display: flex;
   align-items: center;
@@ -296,497 +306,141 @@ html.intro-on { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
-   Hero: pinned scroll scene.
-   Phones: the scene is full-bleed and the headline sits over its dark top.
-   Desktop: a split layout — text + steps on one side, the scene as a card.
+   Hero: a short muted video loop (js/main.js) under the slogan and CTA.
+   Phones: the video fills the screen, the text sits over its dark bottom.
+   Desktop: text on one side, the portrait video as a card on the other.
+   The charcoal glow below is what shows until (or without) the video.
    -------------------------------------------------------------------------- */
 .hero {
   position: relative;
-  width: 100%;
-  background-color: var(--bg);
-}
-
-.hero__pin-wrap {
-  position: relative;
-  width: 100%;
-  height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--nav-h) + 1.5rem) 1.25rem 2.5rem;
   overflow: hidden;
-  background-color: var(--bg);
-}
-
-.hero__scene {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background-color: #17100c;
-}
-
-/* Side column: on phones its children overlay the scene */
-.hero__side { display: contents; }
-.hero__cta { display: none; }
-
-/* Neutral dark grade over the photo's top (headline legibility) and a
-   soft bottom vignette for the CTA. */
-.hero__scene::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
   background:
-    linear-gradient(180deg,
-      rgba(23, 16, 12, 0.9) 0%,
-      rgba(23, 16, 12, 0.7) 22%,
-      rgba(23, 16, 12, 0.35) 34%,
-      rgba(23, 16, 12, 0) 46%),
-    linear-gradient(0deg,
-      rgba(23, 16, 12, 0.7) 0%,
-      rgba(23, 16, 12, 0) 24%);
+    radial-gradient(120% 60% at 75% 8%, rgba(232, 110, 36, 0.55), transparent 60%),
+    radial-gradient(90% 50% at 20% 100%, rgba(196, 82, 27, 0.35), transparent 70%),
+    var(--dark);
+  color: #fff;
 }
 
-/* Base Scene Image (9:16 wooden peel + oven background) */
-.hero__scene picture {
+.hero__media {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  pointer-events: none;
 }
 
-.hero__base {
-  position: absolute;
-  inset: 0;
+.hero__video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  pointer-events: none;
-  user-select: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
 }
 
-/* Oven Glow (aligns with the blurred arch in top-right).
-   Two copies: a pre-blurred dim one and a sharp one on top. GSAP only
-   crossfades their opacity (compositor-only) instead of tweening
-   filter: blur(), which re-rasterized the image every frame. */
-.hero__oven-glow {
-  position: absolute;
-  top: 0%;
-  right: -2%;
-  width: 48%;
-  opacity: 0.5;
-  pointer-events: none;
-  z-index: 2;
-  transform-origin: top right;
-  will-change: opacity;
-  /* Feather the image's rectangular edges into the scene (static mask) */
-  -webkit-mask-image: radial-gradient(ellipse 58% 60% at 55% 48%, #000 52%, transparent 100%);
-  mask-image: radial-gradient(ellipse 58% 60% at 55% 48%, #000 52%, transparent 100%);
-}
+.hero.has-video .hero__video { opacity: 1; }
 
-.hero__oven-glow img {
-  width: 100%;
-  height: auto;
-  filter: drop-shadow(0 0 20px rgba(255, 110, 20, 0.5));
-  will-change: opacity;
-}
-
-.hero__oven-glow .glow-soft { filter: blur(7px) brightness(0.6); }
-
-.hero__oven-glow .glow-sharp {
+/* Dark grade at the bottom for the text, a lighter one under the navbar */
+.hero__media::after {
+  content: '';
   position: absolute;
   inset: 0;
-  opacity: 0;
-}
-
-/* Living hero scene canvas (js/hero-fx.js): above the oven glow, under the pizza */
-.hero__fx {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
+  background: linear-gradient(to top,
+    rgba(20, 20, 20, 0.92) 0%, rgba(20, 20, 20, 0.6) 32%, rgba(20, 20, 20, 0) 58%,
+    rgba(20, 20, 20, 0) 82%, rgba(20, 20, 20, 0.45) 100%);
   pointer-events: none;
 }
 
-/* Pizza Layers Stack */
-.hero__stack {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 3;
-  transform-origin: 46% 52%;
-  will-change: transform, opacity;
-}
-
-.hero__layer {
-  position: absolute;
-  left: 46%;
-  top: 52%;
-  width: 87%;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  pointer-events: none;
-  user-select: none;
-  /* Own compositor layer: opacity/transform tweens then skip repaint */
-  will-change: opacity, transform;
-}
-
-/* Only the small dough ball keeps a real drop-shadow (it is never masked).
-   The disc layers use the cheap static .hero__shadow below instead:
-   a per-layer drop-shadow had to be re-blurred every frame while the
-   toppings' radial mask was animating, which caused the scroll stutter. */
-.hero__layer[data-layer="dough-ball"] {
-  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.65));
-}
-
-/* Soft contact shadow under the pizza disc (gradient, no filter) */
-.hero__shadow {
-  position: absolute;
-  left: 46%;
-  top: 54%;
-  width: 84%;
-  aspect-ratio: 1 / 1;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(10, 4, 0, 0.6) 70%, rgba(10, 4, 0, 0) 100%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Topping layers are revealed through a radial mask that grows from the
-   pizza's center (GSAP tweens --r from 0% to 120%; see spread() in main.js).
-   Default 120% = fully visible, so static / no-JS states are unaffected. */
-.hero__layer[data-layer="sauce"],
-.hero__layer[data-layer="cheese"],
-.hero__layer[data-layer="salami"],
-.hero__layer[data-layer="olives"] {
-  -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, #000 calc(var(--r, 120%) - 16%), transparent var(--r, 120%));
-  mask-image: radial-gradient(circle closest-side at 50% 50%, #000 calc(var(--r, 120%) - 16%), transparent var(--r, 120%));
-}
-
-/* Steam Wisps over baked pizza */
-.hero__steam {
-  position: absolute;
-  left: 46%;
-  top: 44%;
-  width: 170px;
-  height: 180px;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 4;
-  opacity: 0;
-  transition: opacity 1s ease;
-  display: flex;
-  justify-content: space-around;
-}
-
-.hero.is-baked .hero__steam { opacity: 0.75; }
-
-.hero__steam span {
-  display: block;
-  width: 28px;
-  height: 75%;
-  align-self: flex-end;
-  /* Soft gradient instead of filter: blur() — same look, no per-frame blur */
-  background: radial-gradient(ellipse closest-side, rgba(255, 250, 240, 0.45) 0%, rgba(255, 250, 240, 0.15) 55%, rgba(255, 250, 240, 0) 100%);
-  border-radius: 50%;
-  opacity: 0;
-  will-change: transform, opacity;
-  animation: steamRise 3.6s infinite ease-out;
-  animation-play-state: paused; /* only runs once the pizza is baked */
-}
-
-.hero.is-baked .hero__steam span,
-.static-hero .hero__steam span {
-  animation-play-state: running;
-}
-
-.hero__steam span:nth-child(2) { animation-delay: 1.2s; animation-duration: 4.2s; }
-.hero__steam span:nth-child(3) { animation-delay: 2.4s; animation-duration: 3.9s; }
-
-@keyframes steamRise {
-  0% { transform: translate(0, 30px) scale(0.6, 0.6); opacity: 0; }
-  30% { opacity: 0.85; }
-  60% { transform: translate(10px, -40px) scale(1.1, 1.2); }
-  100% { transform: translate(-8px, -110px) scale(1.7, 1.5); opacity: 0; }
-}
-
-/* Headline (phones: white over the photo's dark top) */
-.hero__headline {
-  position: absolute;
-  top: 17%;
-  left: 0;
-  right: 0;
-  z-index: 5;
+.hero__content {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 0 1.5rem;
-  color: #fff;
-  pointer-events: none;
+  align-items: flex-start;
+  max-width: 34rem;
 }
 
 .hero__eyebrow {
-  order: -1;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.75rem;
   padding: 0.3rem 0.85rem;
   border-radius: 9999px;
   background: var(--accent);
-  color: #fff;
   font-size: 0.85rem;
   font-weight: 700;
 }
 
-.hero__headline h1 {
+.hero h1 {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.1rem, 8.5vw, 3rem);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-size: clamp(2.6rem, 12vw, 3.6rem);
+  line-height: 1.1;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
 }
 
-.hero__headline .hero__tagline {
-  margin-top: 0.6rem;
-  font-size: clamp(0.95rem, 3.8vw, 1.1rem);
-  color: rgba(255, 255, 255, 0.85);
+.hero__tagline {
+  margin-top: 0.7rem;
+  font-size: clamp(1rem, 4vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.88);
 }
 
-/* End-of-animation message (fades in with the menu button) */
-.hero__done {
-  position: absolute;
-  top: 16%;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  padding: 0 1.5rem;
-  text-align: center;
-  color: #fff;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.hero__done h2 {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(1.9rem, 7.5vw, 2.6rem);
-  line-height: 1.2;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
-}
-
-.hero__done p {
-  margin-top: 0.4rem;
-  font-size: clamp(0.95rem, 3.6vw, 1.05rem);
-  color: rgba(255, 255, 255, 0.85);
-}
-
-/* Scroll progress (phones): stage label + thin bar */
-.hero__progress {
-  position: absolute;
-  top: calc(var(--nav-h) + 1rem);
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(70%, 280px);
-  z-index: 6;
-  text-align: center;
-  pointer-events: none;
-}
-
-.hero__progress-label {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 0.4rem;
-}
-
-.hero__progress-track {
-  height: 3px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.2);
-  overflow: hidden;
-}
-
-.hero__progress-fill {
-  height: 100%;
-  width: 100%;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: right center;
-}
-
-.hero__steps { display: none; }
-
-/* Scroll Hint */
-.hero__scroll-hint {
-  position: absolute;
-  bottom: 4%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
-  pointer-events: none;
-  animation: heroBounce 2.2s infinite ease-in-out;
-}
-
-.hero__scroll-hint svg { width: 22px; height: 22px; }
-
-@keyframes heroBounce {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 10px); }
-}
-
-/* Hero CTA Menu Button (end of the animation) */
-.hero__menu-btn {
-  position: absolute;
-  bottom: 7%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 6;
+.hero__cta {
+  margin-top: 1.5rem;
   min-height: 54px;
-  padding: 0 2.4rem;
-  font-size: 1.1rem;
-  box-shadow: 0 10px 30px rgba(217, 67, 43, 0.4);
-  opacity: 0;
-  pointer-events: none;
+  padding: 0 2rem;
+  font-size: 1.05rem;
 }
 
-.hero__skip {
-  position: absolute;
-  bottom: 4.2%;
-  right: 1rem;
-  z-index: 6;
-  padding: 0.55rem 1rem;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--ink);
-  font-size: 0.85rem;
-  font-weight: 700;
+.hero__note {
+  margin-top: 0.9rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-/* Desktop: split layout */
+/* Desktop: split layout, video as a portrait card */
 @media (min-width: 1024px) {
-  .hero__pin-wrap {
+  .hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: clamp(2rem, 5vw, 5rem);
-    padding: calc(var(--nav-h) + 1.5rem) clamp(2rem, 6vw, 6rem) 1.5rem;
+    min-height: 100vh;
+    padding: calc(var(--nav-h) + 2rem) clamp(2rem, 6vw, 6rem) 2rem;
+    background: var(--bg);
+    color: var(--ink);
   }
 
-  .hero__side {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    max-width: 520px;
+  .hero__content {
+    grid-column: 1;
+    grid-row: 1;
     justify-self: end;
   }
 
-  .hero__headline {
-    position: static;
-    align-items: flex-start;
-    text-align: start;
-    padding: 0;
-    color: var(--ink);
-    pointer-events: auto;
-  }
-
-  .hero__headline h1 {
-    font-size: clamp(3rem, 4.6vw, 4.4rem);
-    line-height: 1.1;
-    text-shadow: none;
-  }
-
-  .hero__headline .hero__tagline {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-    color: var(--muted);
-  }
-
-  .hero__cta {
-    display: inline-flex;
-    margin-top: 1.75rem;
-    min-height: 54px;
-    padding: 0 2rem;
-    font-size: 1.05rem;
-  }
-
-  .hero__scene {
-    width: min(40vw, 560px);
-    height: 100%;
+  .hero__media {
+    position: relative;
+    grid-column: 2;
+    grid-row: 1;
+    /* Sized from the height so the card keeps the video's 9:16 */
+    height: min(calc(100vh - var(--nav-h) - 4rem), 820px);
+    aspect-ratio: 9 / 16;
     border-radius: 32px;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 60% at 75% 8%, rgba(232, 110, 36, 0.55), transparent 60%),
+      var(--dark);
     box-shadow: 0 30px 60px -20px rgba(31, 22, 17, 0.45);
   }
 
-  .hero__progress { display: none; }
+  .hero__media::after { display: none; }
 
-  .hero__steps {
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    justify-content: start;
-    gap: 0.5rem;
-    list-style: none;
-    counter-reset: step;
+  .hero h1 {
+    font-size: clamp(3.2rem, 5vw, 4.8rem);
+    text-shadow: none;
   }
 
-  .hero__steps li {
-    counter-increment: step;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.45rem 0.8rem 0.45rem 0.9rem;
-    border-radius: 9999px;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--muted);
-    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-  }
-
-  .hero__steps li::before {
-    content: counter(step);
-    display: grid;
-    place-items: center;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: var(--bg-2);
-    font-size: 0.75rem;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .hero__steps li.is-done { color: var(--ink); }
-  .hero__steps li.is-done::before { content: '✓'; background: var(--accent-soft); color: var(--accent); }
-
-  .hero__steps li.is-current {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: #fff;
-  }
-
-  .hero__steps li.is-current::before { background: var(--accent); color: #fff; }
-
-  /* The side column already has the headline and CTA */
-  .hero__skip,
-  .hero__done,
-  .hero__menu-btn { display: none !important; }
+  .hero__tagline { font-size: 1.2rem; color: var(--muted); }
+  .hero__note { color: var(--muted); }
 }
 
 /* --------------------------------------------------------------------------
@@ -2381,48 +2035,8 @@ textarea:focus-visible {
 
 .menu__search input:focus-visible { outline: none; }
 
-/* --------------------------------------------------------------------------
-   Static hero: instant final baked state, no pinned scroll scene.
-   main.js adds .static-hero to <html> for prefers-reduced-motion users
-   and whenever GSAP failed to load (CDN blocked / offline).
-   -------------------------------------------------------------------------- */
-.static-hero .hero__layer[data-layer="baked"] {
-  opacity: 1 !important;
-  transform: translate(-50%, -50%) !important;
-}
-
-.static-hero .hero__layer:not([data-layer="baked"]) { display: none !important; }
-.static-hero .hero__oven-glow { opacity: 0.8 !important; }
-
-.static-hero .hero__oven-glow .glow-sharp,
-.static-hero .hero__shadow { opacity: 1 !important; }
-
-.static-hero .hero__menu-btn {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-.static-hero .hero__scroll-hint,
-.static-hero .hero__progress,
-.static-hero .hero__skip,
-.static-hero .hero__steps,
-.static-hero .hero__fx { display: none !important; }
-
-.static-hero .hero__steam { opacity: 0.75 !important; }
-
-@media (max-width: 1023px) {
-  .static-hero .hero__headline { display: none !important; }
-
-  .static-hero .hero__done {
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .intro, .intro__inner, .intro__flame,
-  .hero__steam span,
-  .hero__scroll-hint,
   .menu__chip {
     animation: none !important;
     transition: none !important;
@@ -2433,6 +2047,3 @@ textarea:focus-visible {
   .cart[open], .isheet[open], .isheet.is-closing, .cartbar, .toast,
   .skel__banner, .skel__row span { animation: none !important; }
 }
-
-/* The CTA is centered with translate: keep it while pressed */
-.hero__menu-btn:active { transform: translate(-50%, 0) scale(0.97); }
