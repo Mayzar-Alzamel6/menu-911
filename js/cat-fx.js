@@ -164,6 +164,12 @@
     }
   };
 
+  // 911 sections reuse the template's recipes: embers over charcoal,
+  // smoke for the fried/snack sections, bubbles for drinks.
+  R.shawarma = R.family = R.grills = R.charcoal = R.pizza;
+  R.broasted = R.strips = R.snacks = R.sandwiches;
+  R.drinks = R.cold;
+
   let current = null; // { canvas, stop }
 
   const play = (banner, id) => {

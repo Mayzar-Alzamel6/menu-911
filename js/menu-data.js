@@ -1,6 +1,7 @@
 /**
- * Menu data — DEMO content. Replace with the restaurant's real menu
- * (or connect a Google Sheet, see js/site-config.js).
+ * Menu data — 911 Restaurants, typed from their printed menu (Facebook page,
+ * Sept 2026; source photos in _private/fb-menu/). Prices in JD.
+ * (Or connect a Google Sheet, see js/site-config.js.)
  *
  * Category:
  *   id          unique, latin letters (used in links: #cat-<id>)
@@ -30,136 +31,120 @@
  *   addons / choices   override the category's (false = none)
  */
 (() => {
-  const SUGAR = { title: 'السكر', en: 'Sugar', options: [['وسط', 'Medium'], ['بدون سكر', 'No sugar'], ['خفيف', 'Light'], ['زيادة', 'Extra sweet']] };
-  const COFFEE_EXTRAS = [['شوت إسبريسو إضافي', 'Extra espresso shot', '0.50'], ['حليب شوفان', 'Oat milk', '0.50']];
-
   window.MENU = [
     {
-      id: 'pizza', title: 'البيتزا', en: 'Pizza', img: 'assets/img/hero/pizza-baked.webp', icon: 'pizza',
-      cols: ['وسط', 'كبير', 'عائلي'], colsEn: ['Medium', 'Large', 'Family'],
-      addons: [['جبنة زيادة', 'Extra cheese', '0.50'], ['فطر', 'Mushrooms', '0.50'], ['زيتون', 'Olives', '0.25'], ['هالبينو', 'Jalapeño', '0.25']],
+      id: 'shawarma', title: 'شاورما', en: 'Shawarma', img: 'assets/img/menu/shawarma.webp', icon: 'sandwich',
+      cols: ['ساندويش', 'وجبة'], colsEn: ['Sandwich', 'Meal'],
+      colsTitle: 'ساندويش أو وجبة', colsTitleEn: 'Sandwich or meal',
       items: [
-        { name: 'بيتزا مارغريتا', en: 'Margherita', desc: 'صلصة طماطم، موزاريلا وريحان طازج', descEn: 'Tomato sauce, mozzarella and fresh basil',
-          price: ['3.00', '4.00', '5.00'], photo: 'pizza-margherita', tags: ['popular', 'veg'], featured: true },
-        { name: 'بيتزا خضار', en: 'Veggie', desc: 'فليفلة ملونة، فطر، زيتون، بصل وذرة', descEn: 'Bell peppers, mushrooms, olives, onion and sweetcorn',
-          price: ['3.00', '4.00', '5.00'], tags: ['veg'] },
-        { name: 'بيتزا سلامي', en: 'Salami', desc: 'سلامي بقري مع موزاريلا وصلصة الطماطم', descEn: 'Beef salami, mozzarella and tomato sauce',
-          price: ['3.50', '4.50', '5.50'] },
-        { name: 'بيتزا دجاج', en: 'BBQ chicken', desc: 'دجاج متبل، فليفلة، بصل وصوص الباربكيو', descEn: 'Marinated chicken, peppers, onion and BBQ sauce',
-          price: ['3.50', '4.50', '5.50'], tags: ['new'] },
-        { name: 'بيتزا مشكّل', en: 'Mixed', desc: 'سلامي، دجاج، خضار وجبنة مضاعفة', descEn: 'Salami, chicken, veggies and double cheese',
-          price: ['4.00', '5.00', '6.00'], photo: 'pizza-mix' }
-      ]
-    },
-    {
-      id: 'pastries', title: 'المعجنات', en: 'Manakish & pastries', img: 'assets/img/menu/pastries.webp', icon: 'croissant',
-      addons: [['جبنة زيادة', 'Extra cheese', '0.25'], ['خضار طازجة', 'Fresh veggies', '0.15']],
-      items: [
-        { name: 'مناقيش زعتر', en: 'Za\'atar manakish', desc: 'زعتر بلدي وزيت زيتون من فرن الطابون', descEn: 'Local za\'atar and olive oil, from the taboon oven',
-          price: '0.50', photo: 'manakish-zaatar', tags: ['popular', 'veg'], featured: true },
-        { name: 'جبنة', en: 'Cheese', desc: 'جبنة عكاوي وموزاريلا مذوّبة', descEn: 'Melted akkawi and mozzarella',
-          price: '0.75', tags: ['veg'] },
-        { name: 'جبنة مع زعتر', en: 'Cheese & za\'atar', desc: 'نص جبنة ونص زعتر، أحلى الاتنين', descEn: 'Half cheese, half za\'atar',
-          price: '0.75', photo: 'pastry-cheese-zaatar', tags: ['veg'] },
-        { name: 'لحمة بعجين', en: 'Lahm bi ajeen', desc: 'لحمة متبلة مع بندورة وبصل ودبس رمان', descEn: 'Spiced minced meat, tomato, onion and pomegranate molasses',
-          price: '1.00' },
-        { name: 'محمرة', en: 'Muhammara', desc: 'فليفلة حمرا مشوية وجوز ودبس رمان', descEn: 'Roasted red pepper, walnut and pomegranate molasses',
-          price: '0.75', tags: ['spicy', 'veg'] },
-        { name: 'فطاير سبانخ', en: 'Spinach fatayer', desc: 'سبانخ بالسماق والبصل والليمون', descEn: 'Spinach with sumac, onion and lemon',
-          price: '1.00', tags: ['veg'] },
-        { name: 'مكس أجبان', en: 'Four cheese', desc: 'عكاوي، موزاريلا، حلوم وقشقوان', descEn: 'Akkawi, mozzarella, halloumi and kashkaval',
-          price: '1.25', tags: ['new', 'veg'] },
-        { name: 'كروسان شوكولا', en: 'Chocolate croissant', desc: 'كروسان بالزبدة محشي شوكولا', descEn: 'Butter croissant filled with chocolate',
-          price: '1.00', addons: false }
-      ]
-    },
-    {
-      id: 'sandwiches', title: 'السندويشات', en: 'Sandwiches', img: 'assets/img/menu/sandwiches.webp', icon: 'sandwich',
-      cols: ['عادي', 'صاج'], colsEn: ['Regular bread', 'Saj bread'],
-      colsTitle: 'اختر الخبز', colsTitleEn: 'Choose the bread',
-      sizePrefix: 'خبز ',
-      orderPrefix: 'ساندويش ',
-      addons: [['بطاطا داخل الساندويش', 'Fries inside', '0.25'], ['جبنة', 'Cheese', '0.25'], ['صوص ثوم زيادة', 'Extra garlic sauce', '0.10']],
-      choices: [{ title: 'الحرّ', en: 'Spice', options: [['عادي', 'Mild'], ['حار', 'Spicy']] }],
-      items: [
-        { name: 'فلافل', en: 'Falafel', desc: 'فلافل مقرمشة، طحينة، بندورة ومخلل', descEn: 'Crispy falafel, tahini, tomato and pickles',
-          price: ['0.75', '1.00'], photo: 'sandwich-falafel', tags: ['veg'] },
-        { name: 'بطاطا', en: 'Fries', desc: 'بطاطا مقلية مع ثومية وكاتشب', descEn: 'Fries with garlic sauce and ketchup',
-          price: ['1.00', '1.25'], tags: ['veg'] },
-        { name: 'حلومي', en: 'Halloumi', desc: 'حلوم مشوي، بندورة، خيار ونعنع', descEn: 'Grilled halloumi, tomato, cucumber and mint',
-          price: ['1.50', '1.75'], tags: ['veg'] },
-        { name: 'دجاج', en: 'Chicken', desc: 'صدر دجاج متبل ومشوي مع ثومية ومخلل', descEn: 'Marinated grilled chicken, garlic sauce and pickles',
-          price: ['2.00', '2.50'], photo: 'sandwich-chicken', tags: ['popular'], featured: true }
+        { name: 'شاورما عادي', en: 'Regular shawarma', price: ['0.75', '2.00'] },
+        { name: 'شاورما عادي مع تشيز', en: 'Regular shawarma with cheese', price: ['1.00', '2.30'] },
+        { name: 'شاورما سوبر', en: 'Super shawarma', price: ['1.25', '2.65'], tags: ['popular'], featured: true },
+        { name: 'شاورما سوبر مع تشيز', en: 'Super shawarma with cheese', price: ['1.55', '2.95'] },
+        { name: 'شاورما دبل', en: 'Double shawarma', price: [null, '3.50'] },
+        { name: 'شاورما إيطالي', en: 'Italian shawarma', price: [null, '3.35'] },
+        { name: 'شاورما حلبي', en: 'Aleppo shawarma', price: [null, '3.50'] }
       ],
-      note: 'الأسعار حسب نوع الخبز', noteEn: 'Price depends on the bread'
+      note: 'الدبل والإيطالي والحلبي وجبات فقط', noteEn: 'Double, Italian and Aleppo come as meals only'
     },
     {
-      id: 'starters', title: 'المقبلات', en: 'Starters', img: 'assets/img/menu/starters.webp', icon: 'salad',
+      id: 'family', title: 'شاورما عائلية', en: 'Family shawarma', img: 'assets/img/menu/family.webp', icon: 'dish',
       items: [
-        { name: 'صحن حمص', en: 'Hummus', desc: 'حمص بالطحينة وزيت الزيتون والكمون', descEn: 'Chickpeas with tahini, olive oil and cumin',
-          price: '1.50', photo: 'hummus', tags: ['popular', 'veg'] },
-        { name: 'صحن فول', en: 'Foul', desc: 'فول مدمس بالليمون والثوم وزيت الزيتون', descEn: 'Fava beans with lemon, garlic and olive oil',
-          price: '1.50', tags: ['veg'] },
-        { name: 'متبل باذنجان', en: 'Moutabal', desc: 'باذنجان مشوي عالفحم مع طحينة ورمان', descEn: 'Charred eggplant with tahini and pomegranate',
-          price: '1.50', tags: ['veg'] },
-        { name: 'بطاطا مقلية', en: 'French fries', desc: 'بطاطا مقرمشة مع صوص الثوم', descEn: 'Crispy fries with garlic dip',
-          price: '1.50', tags: ['veg'], suggest: true },
-        { name: 'سلطة موسمية', en: 'Seasonal salad', desc: 'خضار الموسم مع دبس رمان وزيت زيتون', descEn: 'Seasonal greens, pomegranate molasses and olive oil',
-          price: '2.00', tags: ['new', 'veg'] }
+        { name: 'سدر شاورما 3 أشخاص', en: 'Shawarma platter, 3 people', price: '5.75' },
+        { name: 'سدر شاورما 4 أشخاص', en: 'Shawarma platter, 4 people', price: '7.50' },
+        { name: 'سدر شاورما 5 أشخاص', en: 'Shawarma platter, 5 people', price: '9.50', tags: ['popular'], featured: true },
+        { name: 'سدر شاورما 6 أشخاص', en: 'Shawarma platter, 6 people', price: '11.00' },
+        { name: 'سدر شاورما 7 أشخاص', en: 'Shawarma platter, 7 people', price: '12.50' },
+        { name: 'سدر شاورما 8 أشخاص', en: 'Shawarma platter, 8 people', price: '14.50' },
+        { name: 'سدر شاورما 9 أشخاص', en: 'Shawarma platter, 9 people', price: '16.00' },
+        { name: 'سدر شاورما 10 أشخاص', en: 'Shawarma platter, 10 people', price: '18.00' },
+        { name: 'سدر إيطالي 3 أشخاص', en: 'Italian platter, 3 people', price: '9.25' },
+        { name: 'سدر إيطالي 4 أشخاص', en: 'Italian platter, 4 people', price: '12.00' },
+        { name: 'سدر إيطالي 5 أشخاص', en: 'Italian platter, 5 people', price: '15.00' },
+        { name: 'سدر حلبي 3 أشخاص', en: 'Aleppo platter, 3 people', price: '8.50' },
+        { name: 'سدر حلبي 6 أشخاص', en: 'Aleppo platter, 6 people', price: '16.00' }
       ]
     },
     {
-      id: 'sweets', title: 'الحلويات', en: 'Desserts', img: 'assets/img/menu/sweets.webp', icon: 'cake',
+      id: 'broasted', title: 'بروستد', en: 'Broasted chicken', img: 'assets/img/menu/broasted.webp', icon: 'drumstick',
+      cols: ['4 قطع', '8 قطع', '12 قطعة', '16 قطعة', '20 قطعة', '24 قطعة'],
+      colsEn: ['4 pcs', '8 pcs', '12 pcs', '16 pcs', '20 pcs', '24 pcs'],
+      colsTitle: 'عدد القطع', colsTitleEn: 'Number of pieces',
       items: [
-        { name: 'كنافة', en: 'Kunafa', desc: 'كنافة نابلسية بالجبنة، سخنة مع القطر', descEn: 'Nabulsi cheese kunafa, served warm with syrup',
-          price: '1.50', photo: 'kunafa', tags: ['popular'], featured: true, suggest: true },
-        { name: 'تشيز كيك', en: 'Cheesecake', desc: 'تشيز كيك كريمي مع صوص التوت', descEn: 'Creamy cheesecake with berry sauce',
-          price: '2.00', photo: 'cheesecake', suggest: true },
-        { name: 'كيك شوكولا', en: 'Chocolate cake', desc: 'طبقات شوكولا غنية مع غاناش', descEn: 'Rich chocolate layers with ganache',
-          price: '2.00' },
-        { name: 'مهلبية', en: 'Muhallabia', desc: 'مهلبية بماء الورد والفستق الحلبي', descEn: 'Milk pudding with rose water and pistachio',
-          price: '1.50' },
-        { name: 'آيس كريم (طابتين)', en: 'Ice cream (2 scoops)', desc: 'فانيلا، شوكولا أو فراولة', descEn: 'Vanilla, chocolate or strawberry',
-          price: '1.25',
-          choices: [{ title: 'النكهة', en: 'Flavor', options: [['مشكّل', 'Mixed'], ['فانيلا', 'Vanilla'], ['شوكولا', 'Chocolate'], ['فراولة', 'Strawberry']] }] }
+        { name: 'بروستد', en: 'Broasted chicken', price: ['3.50', '6.75', '10.00', '13.00', '16.00', '19.00'], tags: ['popular'], featured: true }
       ]
     },
     {
-      id: 'hot', title: 'المشروبات الساخنة', en: 'Hot drinks', img: 'assets/img/menu/hot.webp', icon: 'coffee',
-      choices: [SUGAR],
+      id: 'strips', title: 'الستربس', en: 'Chicken strips', icon: 'drumstick',
+      cols: ['5 قطع', '10 قطع', '20 قطعة'], colsEn: ['5 pcs', '10 pcs', '20 pcs'],
+      colsTitle: 'عدد القطع', colsTitleEn: 'Number of pieces',
       items: [
-        { name: 'شاي', en: 'Tea', desc: 'شاي أحمر بالنعنع أو الميرمية', descEn: 'Black tea with mint or sage',
-          price: '0.75',
-          choices: [SUGAR, { title: 'النكهة', en: 'Flavor', options: [['نعنع', 'Mint'], ['ميرمية', 'Sage'], ['سادة', 'Plain']] }] },
-        { name: 'قهوة عربية', en: 'Arabic coffee', desc: 'قهوة بالهيل، محمصة عنا', descEn: 'Cardamom coffee, roasted in-house',
-          price: '1.00', tags: ['popular'] },
-        { name: 'إسبريسو', en: 'Espresso', desc: 'شوت إسبريسو مزدوج', descEn: 'Double espresso shot',
-          price: '1.75', addons: COFFEE_EXTRAS.slice(0, 1) },
-        { name: 'كابتشينو', en: 'Cappuccino', desc: 'إسبريسو مع حليب مرغّي ورشة كاكاو', descEn: 'Espresso, milk foam and a dust of cocoa',
-          price: '2.50', photo: 'cappuccino', addons: COFFEE_EXTRAS, featured: true, suggest: true },
-        { name: 'لاتيه', en: 'Latte', desc: 'إسبريسو مع حليب ناعم', descEn: 'Espresso with silky steamed milk',
-          price: '2.50', addons: COFFEE_EXTRAS },
-        { name: 'هوت شوكليت', en: 'Hot chocolate', desc: 'شوكولا سخنة غنية مع كريمة', descEn: 'Rich hot chocolate topped with cream',
-          price: '2.00', choices: false }
+        { name: 'ستربس', en: 'Chicken strips', price: ['3.50', '7.00', '12.00'] }
       ]
     },
     {
-      id: 'cold', title: 'المشروبات الباردة', en: 'Cold drinks', img: 'assets/img/menu/cold.webp', icon: 'cup',
-      cols: ['صغير', 'كبير'], colsEn: ['Small', 'Large'],
+      id: 'snacks', title: 'السناكات', en: 'Snacks', icon: 'sandwich',
       items: [
-        { name: 'عصير برتقال', en: 'Orange juice', desc: 'برتقال طازج معصور عالطلب', descEn: 'Freshly squeezed to order',
-          price: ['1.75', '2.25'] },
-        { name: 'ليمون ونعنع', en: 'Lemon & mint', desc: 'ليمون طازج مع نعنع مثلّج', descEn: 'Fresh lemon blended with mint and ice',
-          price: ['1.75', '2.25'], photo: 'lemon-mint', tags: ['popular'], featured: true, suggest: true },
-        { name: 'عصير مانجو', en: 'Mango juice', desc: 'مانجو طبيعي كثيف', descEn: 'Thick natural mango',
-          price: ['2.00', '2.50'], tags: ['new'] },
-        { name: 'ميلك شيك', en: 'Milkshake', desc: 'مع آيس كريم وكريمة', descEn: 'Made with ice cream and topped with cream',
-          price: ['2.50', '3.00'], photo: 'milkshake',
-          choices: [{ title: 'النكهة', en: 'Flavor', options: [['فانيلا', 'Vanilla'], ['شوكولا', 'Chocolate'], ['فراولة', 'Strawberry']] }] },
-        { name: 'مياه', en: 'Water', price: ['0.25', null] },
-        { name: 'مشروب غازي', en: 'Soft drink', desc: 'كولا، ليمون أو برتقال', descEn: 'Cola, lemon-lime or orange',
-          price: ['0.75', null], suggest: true,
-          choices: [{ title: 'النوع', en: 'Flavor', options: [['كولا', 'Cola'], ['ليمون', 'Lemon-lime'], ['برتقال', 'Orange']] }] }
+        { name: 'ساندويش زنجر', en: 'Zinger sandwich', price: '2.00' },
+        { name: 'وجبة زنجر', en: 'Zinger meal', price: '2.75', featured: true },
+        { name: 'وجبة زنجر دبل', en: 'Double zinger meal', price: '4.75' },
+        { name: 'ساندويش فاهيتا', en: 'Fajita sandwich', price: '2.00' },
+        { name: 'وجبة فاهيتا', en: 'Fajita meal', price: '2.75' },
+        { name: 'سدر زنجر 3 أشخاص', en: 'Zinger platter, 3 people', price: '8.00' },
+        { name: 'سدر زنجر 4 أشخاص', en: 'Zinger platter, 4 people', price: '10.50' },
+        { name: 'سدر زنجر 5 أشخاص', en: 'Zinger platter, 5 people', price: '13.00' }
+      ]
+    },
+    {
+      id: 'grills', title: 'المشاوي', en: 'Grills', img: 'assets/img/menu/grills.webp', icon: 'dish',
+      items: [
+        { name: 'سيخ شيش', en: 'Shish skewer', price: '1.25' },
+        { name: 'ساندويش شيش', en: 'Shish sandwich', price: '1.50' },
+        { name: 'وجبة شيش', en: 'Shish meal', price: '3.50' },
+        { name: 'سدر شيش 3 أشخاص', en: 'Shish platter, 3 people', price: '6.00' },
+        { name: 'سدر شيش 5 أشخاص', en: 'Shish platter, 5 people', price: '11.00' },
+        { name: 'سيخ أجنحة', en: 'Wings skewer', price: '1.25' },
+        { name: 'وجبة أجنحة', en: 'Wings meal', price: '3.50' },
+        { name: 'سدر أجنحة 3 أشخاص', en: 'Wings platter, 3 people', price: '6.50' },
+        { name: 'سدر أجنحة جامبو', en: 'Jumbo wings platter', price: '12.00' }
+      ]
+    },
+    {
+      id: 'charcoal', title: 'الدجاج على الفحم', en: 'Charcoal chicken', img: 'assets/img/menu/charcoal.webp', icon: 'drumstick',
+      cols: ['مع بطاطا', 'مع أرز'], colsEn: ['With fries', 'With rice'],
+      colsTitle: 'مع بطاطا أو أرز', colsTitleEn: 'With fries or rice',
+      items: [
+        { name: 'نصف دجاجة', en: 'Half chicken', price: ['3.50', '3.50'] },
+        { name: 'دجاجة', en: 'Whole chicken', price: ['6.75', '6.75'], tags: ['popular'], featured: true },
+        { name: 'دجاجة ونصف', en: 'Chicken and a half', price: ['10.00', '10.50'] },
+        { name: 'دجاجتين', en: 'Two chickens', price: ['13.00', '13.00'] }
+      ]
+    },
+    {
+      id: 'sides', title: 'البطاطا والإضافات', en: 'Fries & add-ons', img: 'assets/img/menu/sides.webp', icon: 'salad',
+      items: [
+        { name: 'ساندويش بطاطا', en: 'Fries sandwich', price: '0.75' },
+        { name: 'ساندويش بطاطا مع جبنة', en: 'Fries sandwich with cheese', price: '1.00' },
+        { name: 'علبة بطاطا كبيرة', en: 'Large fries', price: '1.35' },
+        { name: 'علبة بطاطا صغيرة', en: 'Small fries', price: '0.75', suggest: true },
+        { name: 'صحن أرز كبير', en: 'Large rice plate', price: '1.50' },
+        { name: 'علبة أرز صغيرة', en: 'Small rice box', price: '0.75' },
+        { name: 'سلطة كولسلو', en: 'Coleslaw', price: '0.75', suggest: true },
+        { name: 'علبة مخلل', en: 'Pickles', price: '0.75' },
+        { name: 'علبة مايونيز', en: 'Mayonnaise', price: '0.75', suggest: true },
+        { name: 'علبة مايونيز حار', en: 'Spicy mayonnaise', price: '0.75', tags: ['spicy'] },
+        { name: 'علبة مايونيز مكس', en: 'Mixed mayonnaise', price: '0.75' },
+        { name: 'صحن سرفيس', en: 'Service plate', price: '1.25' },
+        { name: 'إضافة تشيز', en: 'Add cheese', price: '0.30' }
+      ]
+    },
+    {
+      id: 'drinks', title: 'المشروبات', en: 'Drinks', icon: 'cup',
+      items: [
+        { name: 'مشروب غازي 250 مل', en: 'Soft drink 250 ml', price: '0.30', suggest: true },
+        { name: 'شنينة', en: 'Shanina (laban)', price: '0.45', suggest: true },
+        { name: 'عصير طبيعي', en: 'Natural juice', price: '0.45' },
+        { name: 'مياه معدنية', en: 'Mineral water', price: '0.25' }
       ]
     }
   ];
