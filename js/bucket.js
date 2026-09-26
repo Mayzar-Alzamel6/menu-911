@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const ctx = canvas.getContext('2d');
 
   const tall = window.innerHeight > window.innerWidth;
-  const TOTAL = tall ? 123 : 144;
+  const TOTAL = tall ? 123 : 155;
   // ?v busts the cache when the frames are re-exported
-  const src = (i) => `assets/img/${tall ? 'bucket-tall' : 'bucket'}/f_${String(i).padStart(3, '0')}.webp?v=2`;
+  const src = (i) => `assets/img/${tall ? 'bucket-tall' : 'bucket'}/f_${String(i).padStart(3, '0')}.webp?v=3`;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const saveData = !!(navigator.connection && navigator.connection.saveData);
   const motion = !!(window.gsap && window.ScrollTrigger) && !reduced && !saveData;
