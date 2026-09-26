@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const ctx = canvas.getContext('2d');
 
   const TOTAL = 144;
-  const src = (i) => `assets/img/bucket/f_${String(i).padStart(3, '0')}.webp`;
+  // ?v busts the cache when the frames are re-exported
+  const src = (i) => `assets/img/bucket/f_${String(i).padStart(3, '0')}.webp?v=2`;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const saveData = !!(navigator.connection && navigator.connection.saveData);
   const motion = !!(window.gsap && window.ScrollTrigger) && !reduced && !saveData;
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const img = pick(i);
     if (!img) return;
     const cw = canvas.width, ch = canvas.height;
+    ctx.imageSmoothingQuality = 'high';
     const iw = img.naturalWidth, ih = img.naturalHeight;
     const cover = Math.max(cw / iw, ch / ih);
     const contain = Math.min(cw / iw, ch / ih);
@@ -71,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fade.width = Math.round(w);
     fade.height = Math.round(h);
     const f = fade.getContext('2d');
+    f.imageSmoothingQuality = 'high';
     f.drawImage(img, 0, 0, fade.width, fade.height);
     const g = f.createLinearGradient(0, 0, 0, fade.height);
     g.addColorStop(0, 'rgba(0,0,0,0)');
@@ -103,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // First frame first (visible straight away), then the rest in order
     load(0).then(() => {
       draw(current);
-      ids.slice(1).forEach((_, k) => load(k + 1).then(() => { if (k + 1 === current) draw(current); }));
+      ids.slice(1).forEach((_, k) => load(k + 1).then(() => { if (k + 1 <= current) draw(current); }));
     });
   };
 
