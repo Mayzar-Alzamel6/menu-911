@@ -1,14 +1,15 @@
 /**
  * Bucket section — scroll-scrubbed frame animation
  *
- * The frames (assets/img/bucket/f_001..144.webp, cut from the bucket video)
- * are drawn on a canvas; ScrollTrigger pins the stage for a few screens and
- * maps scroll progress to the frame, so the chicken and fries fall into the
+ * The frames (cut from the bucket videos) are drawn on a canvas. Portrait
+ * screens get the vertical 9:16 video (assets/img/bucket-tall, full bleed);
+ * landscape screens the wide one (assets/img/bucket). ScrollTrigger pins
+ * the stage for a few screens and maps scroll progress to the frame, so the chicken and fries fall into the
  * bucket as you scroll and fly back out when you scroll up.
  *
  * Phones load every second frame (half the download). Frames only start
- * loading when the section comes near. On narrow screens the frame is drawn
- * smaller than "cover" so the whole bucket fits, over a blurred cover copy.
+ * loading when the section comes near. If a frame would have to be cropped
+ * too much to cover the screen, it's drawn smaller over a blurred cover copy.
  * Reduced motion / Save-Data / no GSAP: the last frame is shown still.
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,9 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const cta = section.querySelector('.bucket__cta');
   const ctx = canvas.getContext('2d');
 
-  const TOTAL = 144;
+  const tall = window.innerHeight > window.innerWidth;
+  const TOTAL = tall ? 123 : 144;
   // ?v busts the cache when the frames are re-exported
-  const src = (i) => `assets/img/bucket/f_${String(i).padStart(3, '0')}.webp?v=2`;
+  const src = (i) => `assets/img/${tall ? 'bucket-tall' : 'bucket'}/f_${String(i).padStart(3, '0')}.webp?v=2`;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const saveData = !!(navigator.connection && navigator.connection.saveData);
   const motion = !!(window.gsap && window.ScrollTrigger) && !reduced && !saveData;
@@ -57,12 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const contain = Math.min(cw / iw, ch / ih);
     const scale = Math.min(cover, contain * 2.3);
     const w = iw * scale, h = ih * scale;
-    const x = (cw - w) / 2, y = (ch - h) / 2 + ch * 0.06;
+    const x = (cw - w) / 2;
 
     if (scale >= cover) {
-      ctx.drawImage(img, x, y, w, h);
+      ctx.drawImage(img, x, (ch - h) / 2, w, h);
       return;
     }
+    const y = (ch - h) / 2 + ch * 0.06;
     ctx.save();
     ctx.filter = 'blur(28px)';
     ctx.drawImage(img, (cw - iw * cover) / 2, (ch - ih * cover) / 2, iw * cover, ih * cover);
