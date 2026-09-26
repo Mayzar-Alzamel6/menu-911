@@ -12,7 +12,8 @@
  * never waits on them.
  */
 document.addEventListener('DOMContentLoaded', () => {
-  const hero = document.querySelector('.hero');
+  // A hidden hero (index.html) downloads nothing and doesn't hold the intro
+  const hero = document.querySelector('.hero:not([hidden])');
   const video = hero && hero.querySelector('.hero__video');
   const still = hero && hero.querySelector('.hero__still');
 
@@ -34,7 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
     hero.classList.add('no-video');
   };
 
-  if (video && !reduced && !saveData) {
+  if (!hero) {
+    heroReady = Promise.resolve();
+  } else if (video && !reduced && !saveData) {
     heroReady = new Promise((resolve) => {
       video.addEventListener('loadeddata', resolve, { once: true });
     });

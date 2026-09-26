@@ -474,6 +474,52 @@ html.intro-on { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
+   Bucket: scroll-scrubbed frame animation (js/bucket.js). The stage is one
+   screen tall and pinned while the frames play; the white matches the
+   video's studio background so the canvas edges disappear.
+   -------------------------------------------------------------------------- */
+.bucket {
+  position: relative;
+  background: #f4f4f4;
+  color: var(--dark);
+}
+
+.bucket__stage {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.bucket__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bucket__text {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(var(--nav-h) + 1.5rem);
+  padding: 0 1.25rem;
+  text-align: center;
+}
+
+.bucket__text h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 10vw, 4.5rem);
+  line-height: 1.1;
+  color: var(--accent);
+}
+
+.bucket__text p {
+  margin-top: 0.5rem;
+  font-size: clamp(1rem, 4vw, 1.25rem);
+}
+
+/* --------------------------------------------------------------------------
    Menu (QR dine-in menu)
    -------------------------------------------------------------------------- */
 .menu {
