@@ -519,6 +519,13 @@ html.intro-on { overflow: hidden; }
   font-size: clamp(1rem, 4vw, 1.25rem);
 }
 
+.bucket__cta {
+  margin-top: 1.1rem;
+  min-height: 54px;
+  padding: 0 2rem;
+  font-size: 1.05rem;
+}
+
 /* --------------------------------------------------------------------------
    Menu (QR dine-in menu)
    -------------------------------------------------------------------------- */

@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const stage = section.querySelector('.bucket__stage');
   const canvas = section.querySelector('.bucket__canvas');
   const text = section.querySelector('.bucket__text');
+  const cta = section.querySelector('.bucket__cta');
   const ctx = canvas.getContext('2d');
 
   const TOTAL = 144;
@@ -137,6 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 0);
   // Title slides in over the last part, once the bucket is full
   tl.fromTo(text, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.2, ease: 'power2.out' }, 0.75);
+  // Menu button once the last frame is reached, held for the rest of the pin
+  if (cta) tl.fromTo(cta, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.12, ease: 'power2.out' }, 1);
+  tl.to({}, { duration: 0.15 });
 
   // The pin adds scroll height above the menu, whose triggers menu.js made first
   ScrollTrigger.sort();
